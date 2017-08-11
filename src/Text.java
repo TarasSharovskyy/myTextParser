@@ -71,6 +71,37 @@ public class Text {
                         (oldValue, newValue)->oldValue, LinkedHashMap::new));
     }
 
+    public void replaseWordsInSentence(){
+        for (int i = sentences.size()-1; i>=0; i--){
+            String sentence = test_text.substring(sentences.get(i).getSentenceStart(),
+                    sentences.get(i).getSentenceEnd());
+            sentence = sentence.replaceAll("\\b"+ sentences.get(i).getShortWord() + "\\b",
+                    sentences.get(i).getLongWord());
+            test_text.replace(sentences.get(i).getSentenceStart(),
+                    sentences.get(i).getSentenceEnd(),
+                    sentence);
+        }
+        textAnalyzer();
+    }
+
+    public String firstUniqueWord(){
+        for (Sentence sentence : sentences) {
+            for (String word : sentence.getSentenceToWord()) {
+                int counter = 0;
+                for (Sentence sentence1 : sentences) {
+                    for (String word1 : sentence1.getSentenceToWord()) {
+                        if (word1.equalsIgnoreCase(word)) {
+                            counter++;
+                        }
+                        if (counter == 1) {
+                            return word;
+                        }
+                    }
+        }
+    }
+        }
+        return null;
+    }
 
 
 

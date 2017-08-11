@@ -8,9 +8,7 @@ public class Main {
                 new String(
                         Files.readAllBytes(Paths.get("src/test_text_1.txt")))));
 
+        System.out.println(myText.firstUniqueWord());
 
-
-        Files.write(Paths.get("src/test_output.txt"), myText.getTest_text().toString().getBytes());
-        myText.getFrequencyResponseCalculating().forEach((k,v)-> System.out.println("word: "+k+", freq: " +v));
     }
 }
