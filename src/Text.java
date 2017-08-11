@@ -1,7 +1,6 @@
 import java.text.BreakIterator;
 import java.util.*;
 import java.util.regex.Pattern;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class Text {
@@ -92,15 +91,15 @@ public class Text {
                     for (String word1 : sentence1.getSentenceToWord()) {
                         if (word1.equalsIgnoreCase(word)) {
                             counter++;
-                        }
+                        } else
                         if (counter == 1) {
-                            return word;
+                             return word;
                         }
                     }
+                }
+            }
         }
-    }
-        }
-        return null;
+       return null;
     }
 
 
