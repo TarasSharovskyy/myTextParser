@@ -7,56 +7,57 @@ import java.util.stream.Collectors;
 public class Text {
     private StringBuffer test_text;
     private List<Sentence> sentences = new ArrayList<>();
-    private HashMap<String, Integer> frequencyResponseCalculating = new HashMap<>();
+    private Map<String, Integer> frequencyResponseCalculating = new HashMap<>();
 
     public Text(StringBuffer test_text) {
         this.test_text = test_text;
+        textAnalyzer();
     }
 
     public StringBuffer getTest_text() {
         return test_text;
     }
 
-    public HashMap<String, Integer> getFrequencyResponseCalculating() {
+    public Map<String, Integer> getFrequencyResponseCalculating() {
         return frequencyResponseCalculating;
 
     }
 
     public void textAnalyzer(){
-//        textToSentences();
+       textToSentences();
             calculateFrequencyDIct();
     }
 
-//    private void textToSentences(){
-//        sentences = null;
-//        Pattern regex = Pattern.compile("\\b(Mr|Ms|Mrs|Dr|st)\\.$", Pattern.CASE_INSENSITIVE);
-//        BreakIterator iterator = BreakIterator.getLineInstance(Locale.ENGLISH);
-//        iterator.setText(test_text.toString());
-//        int st = iterator.first();
-//        StringBuilder builder = new StringBuilder();
-//        int start = st;
-//        int end;
-//        boolean nextSentence = true;
-//        for (end = iterator.next(); end != iterator.DONE; st=end, end=iterator.next()){
-//            if (nextSentence){
-//                start = st;
-//            }
-//            builder.append(test_text.substring(st,end).trim());
-//        String builderSentence = builder.toString();
-//        }
-//        if (!regex.matcher((CharSequence) sentences).find()){
-//            nextSentence = true;
-//            builder.setLength(0);
-//        } else {
-//            nextSentence = false;
-//            builder.append(" ");
-//        }
-//        if (nextSentence){
-//            end = end;
-//            sentences.add(new Sentence(nextSentence,start,end));
-//            start = st;
-//        }
-//    }
+    private void textToSentences(){
+        sentences.clear();
+        Pattern regex = Pattern.compile("\\b(Mrs?|Dr|Rev|Mr|Ms|st)\\.$", Pattern.CASE_INSENSITIVE);
+        BreakIterator iterator = BreakIterator.getSentenceInstance(Locale.ENGLISH);
+        iterator.setText(test_text.toString());
+        int sStart = iterator.first();
+        StringBuilder builder = new StringBuilder();
+        int sentenceStart = sStart;
+        int sentenceEnd;
+        boolean newSentence = true;
+        for (int end = iterator.next(); end!=BreakIterator.DONE; sStart = end, end = iterator.next()){
+            if (newSentence){
+                sentenceStart = sStart;
+            }
+            builder.append(test_text.subSequence(sStart,end).toString().trim());
+            String sentence = builder.toString();
+            if (!regex.matcher(sentence).find()){
+                newSentence = true;
+                builder.setLength(0);
+            } else {
+                newSentence = false;
+                builder.append(" ");
+            }
+            if (newSentence){
+                sentenceEnd = end;
+                sentences.add(new Sentence(sentence, sentenceStart,sentenceEnd));
+                sentenceStart = sStart;
+            }
+        }
+    }
 
     private void calculateFrequencyDIct(){
         for(Sentence sentence :sentences){

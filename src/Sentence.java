@@ -10,13 +10,13 @@ public class Sentence {
     private String longWord = "";
     private List<String> sentenceToWords = new ArrayList<>();
 
-    public Sentence(String sentence, int start, int end, String shortWord, String longWord, List<String> sentenceToWord) {
+    public Sentence(String sentence, int start, int end) {
         this.sentence = sentence;
         this.sentenceStart = start;
         this.sentenceEnd = end;
         this.shortWord = shortWord;
         this.longWord = longWord;
-        this.sentenceToWords = sentenceToWord;
+        this.sentenceToWords = sentenceToWords;
     }
 
 
@@ -47,7 +47,7 @@ public class Sentence {
     }
 
     private void sentenceToWordParser(){
-        sentenceToWords=null;
+        sentenceToWords.clear();
         BreakIterator breakIterator = BreakIterator.getWordInstance();
         breakIterator.setText(sentence);
         int lastIndexOf = breakIterator.next();
